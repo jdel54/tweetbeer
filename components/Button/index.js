@@ -1,5 +1,4 @@
 import { colors } from "../../styles/theme";
-import react from 'react'
 
 export default function ({children, onClick}){
 return(

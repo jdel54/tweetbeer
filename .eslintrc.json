@@ -1,3 +1,11 @@
 {
   "extends": "next/core-web-vitals"
 }
+
+/* eslint-disable react/display-name */
+
+module.exports = {
+  rules: {
+    "react/display-name": "off",
+  }
+}
