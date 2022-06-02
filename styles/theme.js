@@ -10,7 +10,7 @@ base:'-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Ne
 export const colors = {
     black: '#000000',
     white: '#ffffff',
-    primary : '#c7932c',
+    primary : '#F3AF38aa',
     secondary: '#FEF8F8',
 
 

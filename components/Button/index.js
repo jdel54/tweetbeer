@@ -1,9 +1,8 @@
 import { colors } from "../../styles/theme";
-
-export default function ({children, onClick}){
+export default function ({children, disabled, onClick}){
 return(
     <>
-    <button onClick = {onClick}>
+    <button disabled={disabled} onClick = {onClick}>
     {children}
     </button> 
     
@@ -27,9 +26,18 @@ return(
 
         }
 
+        button[disabled] {
+            opacity:0.2;
+            pointer-events:none;
+
+        }
+
         button:hover{
         opacity: .7;
 
+        }
+
+    
         }
             `}
     

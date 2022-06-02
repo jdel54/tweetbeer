@@ -8,14 +8,12 @@ const backgroundColor = addOpacityToColor(colors.primary, 0.3)
 export const globalStyles = css.global`
         html,
           body {
-            background-image:
             radial-gradient(${backgroundColor} 1px, transparent 1px);
-            radial-gradient(${backgroundColor} 1px, transparent 1px);
-            background-position: 0 0 25px 25px;
-            background-size: 50px 50px;
+            height: 100vh;
             padding: 0;
             margin: 0;
             font-family: ${fonts.base}
+            overflow: hidden;
           }
   
           * {
@@ -26,23 +24,31 @@ export const globalStyles = css.global`
 
 export default css`
     div {
-        display: grid;
-        place-items:center;
-        height: 100vh;
+      display: grid;
+    height: 100vh;
+    place-items: center;
     }
 
     main {
-        background: ${colors.primary};
-        border-radius:10px;
+        background: ${colors.white};
         box-shadow:0 10px 25px rgba(0,0,0,.1);
+        display:flex;
+        flex-direction: column;
         width:100%;
-        height:110%;
-        background-image:url("beer.png");
+        height:100%;
+        position: relative;
+    overflow-y: auto;
+    flex-direction: column;
+    overflow-y:auto;
+    }
+    textarea,input{
+      font-family: ${fonts.base}
+
     }
 
     @media (min-width: ${breakpoints.mobile}){
         main {
-            height:100vh;
+            height:90vh;
             width:${breakpoints.mobile};
         }
-    }`
+    }`;

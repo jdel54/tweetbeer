@@ -1,0 +1,187 @@
+import AppLayout from "../../../components/AppLayout";
+import Button from "../../../components/Button";
+import { fonts } from "../../../styles/theme";
+import { useEffect, useId, useState } from "react";
+import useUser from "../../../hooks/useUser";
+import { addBweet, upLoadImage, getImgURL } from "../../../firebase/client";
+import { useRouter } from "next/router";
+import Head from "next/head"
+import Avatar from "../../../components/Avatar"
+
+const Compose_STATES = {
+    User_not_known:0,
+    Loading:1,
+    Success:2,
+    ERROR: -1,
+}
+const DRAG_IMAGE_STATES ={
+    ERROR: -1,
+    None: 0,
+    Drag_over: 1,
+    Uploading: 2,
+    Complete: 3
+
+}
+export default function ComposeTweet ()
+{
+    const [message, setMessage] =useState('')
+    const [status, setStatus] = useState(Compose_STATES.User_not_known)
+    const [drag,setDrag] = useState(DRAG_IMAGE_STATES.None)
+    const [task, setTask] =useState(null)
+    const [imgURL, setImgURL] = useState(null)
+
+    const user = useUser()
+    const router =useRouter()
+
+    useEffect(() => {
+    if(task) {
+        let onProgress = () => {}
+        let onError = () => {}
+        let onComplete = () => {
+        console.log('on complete')
+        getImgURL(task, setImgURL)
+
+
+        }
+
+        
+        task.on('state_changed', onProgress, onError, onComplete)
+    }
+
+    },[task])
+
+const handleChange = (event) => {
+const {value} = event.target
+setMessage(value)
+
+}
+
+const handleSubmit = (event) => {
+
+    event.preventDefault()
+    setStatus(Compose_STATES.Loading)
+    addBweet({
+    avatar: user.avatar,
+    content: message,
+    email: user.email,
+    uid: user.uid,
+    img:imgURL
+    })
+    .then(() => {
+    router.push("/home")
+    })
+    .catch((err) => {
+    console.error(err) 
+    setStatus(Compose_STATES.ERROR)   
+})
+}
+
+const handleDragEnter = (e) => {
+    e.preventDefault()
+setDrag(DRAG_IMAGE_STATES.Drag_over)
+}
+const handleDragLeave = (e) => {
+    e.preventDefault()
+    setDrag(DRAG_IMAGE_STATES.None)
+}
+
+const handleDrop =(e) => {
+    e.preventDefault()
+    setDrag(DRAG_IMAGE_STATES.None)
+    const file = e.dataTransfer.files[0]
+    const task = upLoadImage(file)
+    setTask(task)
+}
+const isButtonDisabled = !message.length || status === Compose_STATES.Loading
+return ( 
+<>
+<AppLayout>
+    <Head>
+    <title>Bweet something</title>
+    </Head>
+    <section className="form-container">
+    { user && 
+    (<section className="avatar-container">
+    <Avatar src={user.avatar} />
+    </section>
+    )}
+    
+
+<form onSubmit = {handleSubmit}>
+<textarea
+onChange={handleChange}
+onDragEnter={handleDragEnter}
+onDragLeave={handleDragLeave}
+onDrop={handleDrop}
+placeholder='Take a sip and Bweet' value={message}></textarea>
+{imgURL && (
+    <section className="remove-img">
+    <button onClick={() => setImgURL(null)}>x</button>
+    <img src={imgURL} />
+    </section>)}
+
+<div><Button disabled= {isButtonDisabled} >Bweet 🍺</Button></div>
+</form>
+<section className="down"></section>
+</section>
+
+ </AppLayout>
+<style jsx>{`
+
+form {
+padding: 10px;
+} 
+.avatar-container {
+          padding-top: 15px;
+          padding-left: 10px;
+        }
+        .form-container {
+          align-items: flex-start;
+          display: flex;
+        }
+button {
+    background: #F3AF38aa;
+    border: 0;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    bottom: 600px;
+    position: absolute;
+    right: 150px;
+    cursor:pointer;
+    z-index:999999;
+        }
+
+img {
+    border-radius: 10px;
+    height: auto;
+    width: 50%;
+    position:relative;
+    left:25%;
+        }
+
+textarea{
+border:${drag === DRAG_IMAGE_STATES.Drag_over ? "2px dashed #F3AF38aa" :"3px solid transparent"};
+border-radius:10px;
+padding:19px;
+font-size:18px;
+width:100%;
+resize:none;
+outline:0;
+font-family: ${fonts.base};
+min-height:200px;
+}
+
+div{
+    padding:15px;
+}
+    
+    
+    `}
+</style>
+
+</>
+)
+}
