@@ -3,11 +3,13 @@ import { useReducer } from "react";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import {
+  GoogleAuthProvider,
   getAuth,
   GithubAuthProvider,
   onAuthStateChanged,
   signInWithPopup
 } from 'firebase/auth'
+import { doc, onSnapshot } from "firebase/firestore";
 import {
   getStorage,
   ref,
@@ -24,6 +26,9 @@ import {
   Timestamp
 } from 'firebase/firestore'
 
+
+
+const provider = new GoogleAuthProvider();
 
 const firebaseConfig = {
   apiKey: "AIzaSyAYl8z3yFJcA6IdOfw_uEexwXRcCscXNxo",
@@ -44,6 +49,7 @@ initializeApp(firebaseConfig)
   }
 
 }  
+
 export const onFirebaseAuthStateChange = (onChange) => {
   const auth = getAuth()
   return onAuthStateChanged(auth, (user) => {
@@ -58,6 +64,14 @@ export const loginWithGitHub = () => {
   githubProvider.setCustomParameters(firebaseConfig)
   const auth = getAuth()
   return signInWithPopup(auth, githubProvider).then(mapUserFromFirebaseAuthToUser) 
+  
+}
+
+export const loginWithGoogle = () => {
+  const GoogleProvider = new GoogleAuthProvider()
+  GoogleProvider.setCustomParameters(firebaseConfig)
+  const auth = getAuth()
+  return signInWithPopup(auth, GoogleProvider).then(mapUserFromFirebaseAuthToUser) 
   
 }
 
@@ -77,7 +91,9 @@ export const addBweet = async ({ avatar, email, img,  uid, content }) => {
     shareCount: 0
   })
 }
-const mapTuitFromFirebaseToBweetObject = (doc) => {
+
+
+const mapBweetFromFirebaseToBweetObject = (doc) => {
   const data = doc.data()
   const id = doc.id
   const { createdAt } = data
@@ -92,15 +108,16 @@ const mapTuitFromFirebaseToBweetObject = (doc) => {
 }
 
 
-export const fetchLatestBweets = async () => {
+ export const fetchLatestBweets = async () => {
   const latestBweetsQuery = query(collection(db, 'Bweets'), orderBy('createdAt', 'desc'))
   const { docs } = await getDocs(latestBweetsQuery)
   try {
-    return docs.map(mapTuitFromFirebaseToBweetObject)
+    return docs.map(mapBweetFromFirebaseToBweetObject)
   }catch (err) {
     console.log(err)
   }
 }
+
 export const upLoadImage = (file) => {
   const now = Date.now()
   const storageRef = ref(storage, `images/${now}_${file.name}`)

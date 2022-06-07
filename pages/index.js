@@ -3,12 +3,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import AppLayout from '../components/AppLayout'
 import { colors } from '../styles/theme'
 import Button from '../components/Button'
 import SvgComponent from '../components/Icons/Github'
 import SvgGoogle from '../components/Icons/Google'
-import {loginWithGitHub, onAuthStateChanged } from '../firebase/client'
+import {loginWithGitHub, onAuthStateChanged, loginWithGoogle } from '../firebase/client'
 import { getAdditionalUserInfo } from 'firebase/auth'
 import Avatar from '../components/Avatar'
 import{useRouter} from 'next/router'
@@ -31,9 +30,13 @@ user && router.replace('/home')
    const handleClick = () =>{
     loginWithGitHub ().catch(err =>{
     console.log(err)
+  })}
 
-  })
-}
+    const Google = () =>{
+      loginWithGoogle ().catch(err =>{
+      console.log(err)
+    })}
+  
   return (
     
     <div className={styles.container}>
@@ -42,7 +45,6 @@ user && router.replace('/home')
         <meta name="description" content="Tweetbeer" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppLayout>
        
         <section>
         <h1 className={styles.title}>
@@ -53,22 +55,31 @@ user && router.replace('/home')
         <div>
           {
 
-           user === USER_STATES.NOT_LOGGED &&  
+           user === USER_STATES.NOT_LOGGED && 
           <Button onClick={handleClick}>
           <SvgComponent fill='white' width={24} height={24}/>
           Login with Github
           </Button>
-
           }
+
+{
+          user === USER_STATES.NOT_LOGGED &&
+          <div>   
+          <button className="google" onClick={Google}>
+          <SvgGoogle fill='white' width={24} height={24}/>
+          Login with Google
+          </button>
+          </div>
+}
           {
             user === USER_STATES.NOT_KNOWN && <img width={100} src='/spinner.gif'/>
           }
         
         </div>        
         </section>
-        </AppLayout>
 
         <style jsx>{`
+          
           span{
             font-size:12px;
           }
@@ -77,19 +88,48 @@ user && router.replace('/home')
             height:100%;
             place-items:center;
             place-content:center;
-
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%); 
           }
+          
+          .google {
+            align-items:center;
+        background-color: #DB4437aa;
+        border:0;
+        color:${colors.white};
+        display:flex;
+        border-radius: 9999px;
+        padding: 8px 24px;
+        font-size:16px;
+        cursor:pointer;
+        transition: opacity .3s ease;
+          }
+        button > :global(svg){
+            margin-right:12px;
+
+        }
+
+        .google[disabled] {
+            opacity:0.2;
+            pointer-events:none;
+
+        }
+
+        .google:hover{
+        opacity: .7;
+
+        }
 
           div{
             margin-top:16px;
             font-size:4rem;
-          }
+          }  
+               
 
-        div2{
-            margin-top:10px;
-          }
-
-          
         h1 {
           font-size:28px;
           color:${colors.black};

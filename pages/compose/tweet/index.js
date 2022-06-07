@@ -7,6 +7,10 @@ import { addBweet, upLoadImage, getImgURL } from "../../../firebase/client";
 import { useRouter } from "next/router";
 import Head from "next/head"
 import Avatar from "../../../components/Avatar"
+import Link from "next/link";
+import Create from "/components/Icons/Create"
+import Home from "/components/Icons/Home"
+import { colors } from "../../../styles/theme";
 
 const Compose_STATES = {
     User_not_known:0,
@@ -95,7 +99,6 @@ const handleDrop =(e) => {
 const isButtonDisabled = !message.length || status === Compose_STATES.Loading
 return ( 
 <>
-<AppLayout>
     <Head>
     <title>Bweet something</title>
     </Head>
@@ -122,23 +125,67 @@ placeholder='Take a sip and Bweet' value={message}></textarea>
 
 <div><Button disabled= {isButtonDisabled} >Bweet 🍺</Button></div>
 </form>
-<section className="down"></section>
 </section>
+<nav>
+<Link href="/compose/tweet">
+        <a>
+        <Create/>
+        </a>
+    </Link>
+<Link href="/home">
+        <a>
+        <Home/>
+        </a>
+    </Link>
+    
+</nav>
 
- </AppLayout>
 <style jsx>{`
 
 form {
 padding: 10px;
 } 
 .avatar-container {
-          padding-top: 15px;
+          padding-top: 20px;
           padding-left: 10px;
         }
-        .form-container {
+
+.form-container {
           align-items: flex-start;
           display: flex;
         }
+
+nav {
+    background:white;
+    bottom: 0;
+    box-shadow: 2px 2px 2px 4px #F3AF38aa;     
+    display: flex;
+    min-height: 49px;
+    position: fixed;
+    width: 100%;
+    z-index:9999;
+    align-items:center;
+
+}
+
+nav a{
+    align-items: center;
+    display: flex;
+    flex: 1 1 auto;
+    height:100%;
+    justify-content:center;
+}
+
+nav a:hover{
+    background: radial-gradient(#F3AF38aa 1%,
+    transparent 16%);
+    background-size: 180px 180px;
+    background-position:center;
+}
+
+nav a:hover > global(svg){
+    stroke: ${colors.primary}
+}
 button {
     background: #F3AF38aa;
     border: 0;
@@ -153,6 +200,7 @@ button {
     cursor:pointer;
     z-index:999999;
         }
+        
 
 img {
     border-radius: 10px;

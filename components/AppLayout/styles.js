@@ -29,6 +29,8 @@ export default css`
     place-items: center;
     }
 
+    
+
     main {
         background: ${colors.white};
         box-shadow:0 10px 25px rgba(0,0,0,.1);
