@@ -69,10 +69,10 @@ header {
     border-bottom: 1px dotted #eee;
     display:flex;
     height:49px;
-    position:sticky;
+    position:fixed;
     top:0;
-    width:100%;
     z-index:9999;
+    width:550px;
 
 }
 
