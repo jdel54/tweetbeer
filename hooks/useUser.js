@@ -5,8 +5,7 @@ import {useRouter} from 'next/router'
 
 export const USER_STATES ={
         NOT_LOGGED: null,
-        NOT_KNOWN: undefined,
-        
+        NOT_KNOWN: undefined, 
         }
 
         export default function useUser (){

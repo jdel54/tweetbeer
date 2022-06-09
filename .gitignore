@@ -1,1 +1,10 @@
+
+#local env files
+.env.local
+
+
+#JSON keys firebase
+firebase/firebase-keys.json
+
+#node modules
 node_modules

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import Bweet from "../../components/Bweet";
-import useUser from "../../hooks/useUser";
+import { useEffect, useState } from "react"
+import Bweet from "../../components/Bweet"
+import useUser from "../../hooks/useUser"
 import { fetchLatestBweets } from "../../firebase/client";
 import Link from "next/link"
 import Create from "../../components/Icons/Create"
 import Home from "../../components/Icons/Home"
-import { colors } from "../../styles/theme";
+import { colors } from "../../styles/theme"
 import Head from 'next/head'
+import { auth, getAuth, signOut} from "../../firebase/client"
+
 
 export default function HomePage (){
     const[timeline, setTimeline] =useState([])
@@ -16,6 +18,7 @@ export default function HomePage (){
     useEffect(() =>{
         user && fetchLatestBweets().then(setTimeline)
     }, [user])
+
     
 return (
     <>
@@ -25,6 +28,7 @@ return (
 <header>
 <h2>Timeline 🍺 </h2 >
 </header>
+
 <section>
 {timeline.map(({createdAt, img, id, username, avatar, content: message, email, userId, domain}) => (
      <Bweet
@@ -87,14 +91,15 @@ div:hover{
     opacity:.6;
 }
 nav {
-    background:white;
-    bottom: 0;
-    box-shadow: 2px 2px 2px 3px #F3AF38aa;
-    display: flex;
-    min-height: 49px;
+    z-index: 999999;
     position: sticky;
+    bottom: 0;
+    right: 0;
     width: 100%;
-    z-index:9999;
+    min-height:49px;
+    background-color: #fff;
+    box-shadow: #F3AF38aa 0 -2px 2px 0;
+    display: flex;
 
 }
 

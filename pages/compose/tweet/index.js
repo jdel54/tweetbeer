@@ -12,6 +12,7 @@ import Create from "/components/Icons/Create"
 import Home from "/components/Icons/Home"
 import { colors } from "../../../styles/theme";
 
+
 const Compose_STATES = {
     User_not_known:0,
     Loading:1,
@@ -156,15 +157,15 @@ padding: 10px;
         }
 
 nav {
-    background:white;
+    z-index: 999999;
+    position: sticky;
     bottom: 0;
-    box-shadow: 2px 2px 2px 4px #F3AF38aa;     
-    display: flex;
-    min-height: 49px;
-    position: fixed;
+    right: 0;
     width: 100%;
-    z-index:9999;
-    align-items:center;
+    min-height:49px;
+    background-color: #fff;
+    box-shadow: #F3AF38aa 1px 0 2px 1px;
+    display: flex;
 
 }
 

@@ -3,6 +3,7 @@ import { useReducer } from "react";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import {
+  signOut,
   GoogleAuthProvider,
   getAuth,
   GithubAuthProvider,
@@ -74,6 +75,13 @@ export const loginWithGoogle = () => {
   return signInWithPopup(auth, GoogleProvider).then(mapUserFromFirebaseAuthToUser) 
   
 }
+
+const auth = getAuth();
+signOut(auth).then(() => {
+  // Sign-out successful.
+}).catch((error) => {
+  // An error happened.
+});
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore()

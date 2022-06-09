@@ -14,14 +14,11 @@ var domain  = email.substring(0, email.lastIndexOf("@"));
 const timeago = useTimeAgo(createdAt)   
 const router = useRouter()
 
-const handleArticleClick = (e) => {
-    e.preventDefault()
-    router.push(`/status/${id}`)
-  }
+
 
 return(
 <>
-    <article onClick={handleArticleClick}>
+    <article>
     <div>
     <Avatar alt={username} src={avatar}/>
     </div>

@@ -53,14 +53,14 @@ user && router.replace('/home')
         <h2>The place to tweet, while drinking a 🍺</h2>
 
         <div>
-          {
+         {/*  {
 
-           user === USER_STATES.NOT_LOGGED && 
+           user === USER_STATES.NOT_LOGGED &&
           <Button onClick={handleClick}>
           <SvgComponent fill='white' width={24} height={24}/>
           Login with Github
           </Button>
-          }
+          } */}
 
 {
           user === USER_STATES.NOT_LOGGED &&
