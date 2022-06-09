@@ -69,10 +69,10 @@ header {
     border-bottom: 1px dotted #eee;
     display:flex;
     height:49px;
-    position:fixed;
+    position:sticky;
     top:0;
+    width:100%;
     z-index:9999;
-    width:550px;
 
 }
 
@@ -92,14 +92,14 @@ div:hover{
 }
 nav {
     z-index: 999999;
-    position: fixed;
+    position: sticky;
     bottom: 0;
+    right: 0;
+    width: 100%;
     min-height:49px;
     background-color: #fff;
     box-shadow: #F3AF38aa 0 -2px 2px 0;
     display: flex;
-    width:550px;
-    align-items:center;
 
 }
 
